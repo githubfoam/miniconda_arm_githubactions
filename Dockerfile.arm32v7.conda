@@ -1,0 +1,23 @@
+FROM arm32v7/debian:stretch-slim
+
+
+COPY --from=biarms/qemu-bin /usr/bin/qemu-arm-static /usr/bin/qemu-arm-static
+
+RUN set -x && \
+    apt-get update && apt-get install -y curl bzip2 && \
+    curl -s -L https://repo.continuum.io/miniconda/Miniconda-latest-Linux-armv7l.sh > miniconda.sh && \
+    bash miniconda.sh -b -p  /opt/conda && \
+    rm miniconda.sh && \
+    export PATH=/opt/conda/bin:$PATH && \
+    conda config --set show_channel_urls True && \
+    conda update --all --yes
+
+# Install conda-build
+RUN export PATH="/opt/conda/bin:${PATH}" && \
+    conda install --yes conda-build anaconda-client
+
+# Install build tools
+RUN apt-get update  && apt-get install -y build-essential
+
+ENV PATH="/opt/conda/bin:${PATH}"
+CMD [ "/bin/bash" ]
