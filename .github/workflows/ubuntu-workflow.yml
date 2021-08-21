@@ -9,8 +9,8 @@ jobs:
 
 
 
-  ubuntu-1604-conda-job:
-    name: "Miniconda on debian arm64 arm32v7 ubuntu-16.04"
+  ubuntu-1604-miniconda-arm32v7-job:
+    name: "miniconda arm32v7 ubuntu-16.04"
     runs-on: ubuntu-16.04
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +19,16 @@ jobs:
     - name: "deploy miniconda arm"
       run: make deploy-miniconda-arm      
 
-       
+  ubuntu-1604-miniconda-arm64v8-job:
+    name: "miniconda arm64v8 ubuntu-16.04"
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status  
+    - name: "deploy miniconda arm"
+      run: make deploy-miniconda-arm 
+
 
   # ubuntu-1804-conda-job:
   #   name: "ubuntu-18.04 conda latest"
