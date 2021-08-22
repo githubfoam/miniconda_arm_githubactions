@@ -21,14 +21,18 @@ docker run --rm --privileged multiarch/qemu-user-static:register --reset
 export BRANCH_NAME="main"
 echo "BRANCH_NAME is..: $BRANCH_NAME"
 
-echo $(if [ "$BRANCH_NAME" = "master" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest";fi; fi)
-export TARGET_IMAGE_TAG=$(if [ "$BRANCH_NAME" = "main" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest";fi; fi)
+# echo $(if [ "$BRANCH_NAME" = "master" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest";fi; fi)
+# export TARGET_IMAGE_TAG=$(if [ "$BRANCH_NAME" = "main" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest";fi; fi)
+export TARGET_IMAGE_TAG=$(if [ "$BRANCH_NAME" = "master" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest"; else echo "$TAG_SUFFIX"; fi; else if [ "$TAG_SUFFIX" = "" ]; then echo "$BRANCH_NAME"; else echo "$BRANCH_NAME-$TAG_SUFFIX"; fi; fi)
 
 echo "TAG_SUFFIX is..: $TAG_SUFFIX"
 echo "TARGET_IMAGE_TAG is..: $TARGET_IMAGE_TAG"
 # echo $IMAGE_CACHE
 
-docker pull $TARGET_IMAGE:$TARGET_IMAGE_TAG && export IMAGE_CACHE="--cache-from $TARGET_IMAGE:$TARGET_IMAGE_TAG" || export IMAGE_CACHE=""
+# docker pull $TARGET_IMAGE:$TARGET_IMAGE_TAG && export IMAGE_CACHE="--cache-from $TARGET_IMAGE:$TARGET_IMAGE_TAG" || export IMAGE_CACHE=""
+
+export TARGET_IMAGE="tester"
+echo "TARGET_IMAGE is..: $TARGET_IMAGE"
 
 docker build . -f $DOCKERFILE $IMAGE_CACHE --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg QEMU_ARCH=${QEMU_ARCH} -t $TARGET_IMAGE:$TARGET_IMAGE_TAG
 
