@@ -18,14 +18,14 @@ sudo apt-get --yes --no-install-recommends install binfmt-support qemu-user-stat
 
 docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
-export BRANCH_NAME="master"
-echo $BRANCH_NAME
+export BRANCH_NAME="main"
+echo "BRANCH_NAME..: $BRANCH_NAME"
 
 echo $(if [ "$BRANCH_NAME" = "master" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest";fi; fi)
 export TARGET_IMAGE_TAG=$(if [ "$BRANCH_NAME" = "master" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest";fi; fi)
 
-echo $TAG_SUFFIX
-echo $TARGET_IMAGE_TAG
+echo "TAG_SUFFIX..: $TAG_SUFFIX"
+echo "TARGET_IMAGE_TAG..: $TARGET_IMAGE_TAG"
 # echo $IMAGE_CACHE
 
 # docker build . -f $DOCKERFILE $IMAGE_CACHE --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg QEMU_ARCH=${QEMU_ARCH} -t $TARGET_IMAGE:$TARGET_IMAGE_TAG
