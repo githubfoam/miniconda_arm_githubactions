@@ -28,7 +28,9 @@ echo "TAG_SUFFIX is..: $TAG_SUFFIX"
 echo "TARGET_IMAGE_TAG is..: $TARGET_IMAGE_TAG"
 # echo $IMAGE_CACHE
 
-# docker build . -f $DOCKERFILE $IMAGE_CACHE --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg QEMU_ARCH=${QEMU_ARCH} -t $TARGET_IMAGE:$TARGET_IMAGE_TAG
+docker pull $TARGET_IMAGE:$TARGET_IMAGE_TAG && export IMAGE_CACHE="--cache-from $TARGET_IMAGE:$TARGET_IMAGE_TAG" || export IMAGE_CACHE=""
+
+docker build . -f $DOCKERFILE $IMAGE_CACHE --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg QEMU_ARCH=${QEMU_ARCH} -t $TARGET_IMAGE:$TARGET_IMAGE_TAG
 
 # docker image ls
 
