@@ -31,6 +31,7 @@ echo "TARGET_IMAGE_TAG is..: $TARGET_IMAGE_TAG"
 
 # docker pull $TARGET_IMAGE:$TARGET_IMAGE_TAG && export IMAGE_CACHE="--cache-from $TARGET_IMAGE:$TARGET_IMAGE_TAG" || export IMAGE_CACHE=""
 
+export IMAGE_CACHE=""
 export TARGET_IMAGE="tester"
 echo "TARGET_IMAGE is..: $TARGET_IMAGE"
 
